@@ -1,4 +1,5 @@
 terraform {
+  required_version = "1.1.9"
   required_providers {
     aws = {
       source = "hashicorp/aws"
@@ -20,4 +21,12 @@ provider "scaleway" {
 provider "aws" {
   profile = "vinyl-catalog"
   region = "eu-central-1"
+}
+
+module "aws_resources" {
+  source = "./aws"
+}
+
+module "scaleway_resources" {
+  source = "./scaleway"
 }
