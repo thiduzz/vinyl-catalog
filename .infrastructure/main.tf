@@ -25,12 +25,12 @@ provider "aws" {
 
 module "aws_resources" {
   source = "./aws"
-  project_name = ""
-  tag_environment = ""
+  project_name = var.project_name
+  tag_environment = var.tag_environment
 }
 
 module "scaleway_resources" {
   source = "./scaleway"
-  project_name = ""
-  tag_environment = ""
+  project_name = var.project_name
+  tag_environment = var.tag_environment
 }
