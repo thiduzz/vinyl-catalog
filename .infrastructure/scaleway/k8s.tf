@@ -1,6 +1,6 @@
 resource "scaleway_k8s_cluster" "main-cluster" {
   name    = "${var.project_name}-cluster"
-  version = "1.23.0"
+  version = "1.23.4"
   cni     = "cilium"
   tags = [var.tag_environment]
 }
