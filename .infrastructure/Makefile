@@ -15,6 +15,9 @@ init: ## Initialize Terraform project
 apply: init ## Apply changes to Infrastructure
 	terraform apply -var-file=$(VAR_FILE)
 
+destroy: ## Remove all changes done to the Infrastructure
+	terraform destroy -var-file=$(VAR_FILE)
+
 update-kubeconfig: ## Update kubeconfig to connect to cluster
 	scw k8s kubeconfig get $(KUBERNETES_CLUSTER_ID)
 	scw k8s kubeconfig install $(KUBERNETES_CLUSTER_ID)
