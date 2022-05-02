@@ -1,7 +1,7 @@
 .DEFAULT_GOAL:=help
 
 VAR_FILE = $(ENV).tfvars
-KUBERNETES_CLUSTER_ID =
+KUBERNETES_CLUSTER_ID = 84d94250-ab3c-4293-8c0b-c6f9f1f78e3a
 
 help: ## Prints the help about targets.
 	@printf "Usage:             ENV=[\033[34mprod|stage|dev\033[0m] make [\033[34mtarget\033[0m]\n"
@@ -19,5 +19,5 @@ destroy: ## Remove all changes done to the Infrastructure
 	terraform destroy -var-file=$(VAR_FILE)
 
 update-kubeconfig: ## Update kubeconfig to connect to cluster
-	scw k8s kubeconfig get $(KUBERNETES_CLUSTER_ID)
-	scw k8s kubeconfig install $(KUBERNETES_CLUSTER_ID)
+	scw -p vinyl-catalog k8s kubeconfig get $(KUBERNETES_CLUSTER_ID)
+	scw -p vinyl-catalog k8s kubeconfig install $(KUBERNETES_CLUSTER_ID)
