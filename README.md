@@ -23,15 +23,20 @@ Go to the project directory
 Start Golang server
 
 ```bash
-  go run services/api/cmd/vinyl_catalog/main.go
+  make start-goland-server
 ```
 
 Start NextJS server
 
 ```bash
-  go run services/api/cmd/vinyl_catalog/main.go
+  make start-nextjs-server
 ```
 
+Start both servers
+
+```bash
+  make start-servers -j
+```
 ## Authors
 
 - [@thiduzz](https://www.github.com/thiduzz)

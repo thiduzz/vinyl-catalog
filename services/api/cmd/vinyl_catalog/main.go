@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	log.Println("Starting server at port 8080")
+	log.Println("started server on 0.0.0.0:8080, url: http://localhost:8080")
 
 	http.HandleFunc("/up", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
