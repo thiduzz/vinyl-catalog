@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from "next/link";
 import useSWR from 'swr'
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: RequestInfo) => fetch(url).then((res) => res.json());
 const API = 'backend/up';
 
 const Up: NextPage = () => {

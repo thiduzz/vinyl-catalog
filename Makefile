@@ -36,7 +36,7 @@ stop-production: ## Stop the production docker container.
 
 .PHONY: start-goland-server
 start-goland-server: ## Stop the production docker container.
-	go run services/api/cmd/vinyl_catalog/main.go
+	cd services/api && go run cmd/vinyl_catalog/main.go
 
 .PHONY: start-nextjs-server
 start-nextjs-server: ## Stop the production docker container.
