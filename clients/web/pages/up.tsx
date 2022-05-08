@@ -13,7 +13,7 @@ const Up: NextPage = () => {
         text = 'Failed to load'
     }
     if (data) {
-        text = data
+        text = data.status
     }
     return (
         <div className="w-full h-screen p-0 flex flex-col">
