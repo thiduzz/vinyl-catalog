@@ -14,12 +14,12 @@ updates:
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/clients/web"
     schedule:
       interval: "daily"
 
   # Maintain dependencies for Go modules
   - package-ecosystem: "gomod"
-    directory: "/"
+    directory: "/services/api"
     schedule:
       interval: "daily"
