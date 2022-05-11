@@ -5,6 +5,8 @@ resource "scaleway_k8s_cluster" "main-cluster" {
   tags = [var.tag_environment]
 }
 
+resource "scaleway_lb_ip" "nginx_ip" {}
+
 resource "scaleway_k8s_pool" "main-pool" {
   # Link this pool to the cluster
   cluster_id = scaleway_k8s_cluster.main-cluster.id
