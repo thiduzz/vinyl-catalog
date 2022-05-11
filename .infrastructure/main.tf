@@ -30,7 +30,7 @@ provider "aws" {
 
 provider "helm" {
   kubernetes {
-    config_context = "admin@vinyl-catalog-cluster-84d94250-ab3c-4293-8c0b-c6f9f1f78e3a"
+    config_context = "admin@vinyl-catalog-cluster-78e28698-4011-496a-b63f-004652541296"
     config_path = "~/.kube/config"
   }
 }
