@@ -1,7 +1,7 @@
 .DEFAULT_GOAL:=help
 
 VAR_FILE = $(ENV).tfvars
-KUBERNETES_CLUSTER_ID = 84d94250-ab3c-4293-8c0b-c6f9f1f78e3a
+KUBERNETES_CLUSTER_ID = 78e28698-4011-496a-b63f-004652541296
 
 help: ## Prints the help about targets.
 	@printf "Usage:             ENV=[\033[34mprod|stage|dev\033[0m] make [\033[34mtarget\033[0m]\n"
@@ -14,6 +14,9 @@ init: ## Initialize Terraform project
 
 apply: init ## Apply changes to Infrastructure
 	terraform apply -var-file=$(VAR_FILE)
+
+apply-refresh: init ## Refresh changes to Infrastructure
+	terraform apply -refresh-only -var-file=$(VAR_FILE)
 
 destroy: ## Remove all changes done to the Infrastructure
 	terraform destroy -var-file=$(VAR_FILE)
