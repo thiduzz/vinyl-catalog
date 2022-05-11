@@ -9,6 +9,11 @@ terraform {
       source  = "scaleway/scaleway"
       version = "2.2.1-rc.3"
     }
+
+    helm = {
+      source = "hashicorp/helm"
+      version = "2.5.1"
+    }
   }
 }
 
@@ -23,6 +28,13 @@ provider "aws" {
   region  = "eu-central-1"
 }
 
+provider "helm" {
+  kubernetes {
+    config_context = "admin@vinyl-catalog-cluster-84d94250-ab3c-4293-8c0b-c6f9f1f78e3a"
+    config_path = "~/.kube/config"
+  }
+}
+
 module "aws_resources" {
   source = "./aws"
   project_name = var.project_name
@@ -33,4 +45,12 @@ module "scaleway_resources" {
   source = "./scaleway"
   project_name = var.project_name
   tag_environment = var.tag_environment
+}
+
+module "k8s_resources" {
+  source = "./k8s"
+  project_name = var.project_name
+  tag_environment = var.tag_environment
+  nginx_ip = module.scaleway_resources.nginx-ip
+  nginx_zone = module.scaleway_resources.nginx-ip-zone
 }
