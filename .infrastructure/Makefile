@@ -1,5 +1,5 @@
 .DEFAULT_GOAL:=help
-
+.PHONY=  apply-k8s
 VAR_FILE = $(ENV).tfvars
 KUBERNETES_CLUSTER_ID = 78e28698-4011-496a-b63f-004652541296
 
@@ -12,6 +12,11 @@ help: ## Prints the help about targets.
 init: ## Initialize Terraform project
 	terraform init
 
+kube-apply: ## Create all Kubernetes cluster resources
+	kubectl apply -f ./k8s/manifests/backend.yaml
+	kubectl apply -f ./k8s/manifests/frontend.yaml
+	kubectl apply -f ./k8s/manifests/ingress.yaml
+
 apply: init ## Apply changes to Infrastructure
 	terraform apply -var-file=$(VAR_FILE)
 
@@ -20,6 +25,11 @@ apply-refresh: init ## Refresh changes to Infrastructure
 
 destroy: ## Remove all changes done to the Infrastructure
 	terraform destroy -var-file=$(VAR_FILE)
+
+kube-destroy: ## Destroy all Kubernetes cluster resources
+	kubectl delete -f ./k8s/manifests/backend.yaml
+	kubectl delete -f ./k8s/manifests/frontend.yaml
+	kubectl delete -f ./k8s/manifests/ingress.yaml
 
 update-kubeconfig: ## Update kubeconfig to connect to cluster
 	scw -p vinyl-catalog k8s kubeconfig get $(KUBERNETES_CLUSTER_ID)
