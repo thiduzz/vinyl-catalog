@@ -23,3 +23,9 @@ updates:
     directory: "/services/api"
     schedule:
       interval: "daily"
+
+  # Maintain Terraform
+ - package-ecosystem: "terraform"
+   directory: "/"
+   schedule:
+     interval: "daily"
