@@ -26,6 +26,6 @@ updates:
 
   # Maintain Terraform
   - package-ecosystem: "terraform"
-    directory: "/"
+    directory: "/.infrastructure"
     schedule:
       interval: "daily"
