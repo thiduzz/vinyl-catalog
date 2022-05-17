@@ -34,7 +34,7 @@ start-production: ## Start the production docker container.
 stop-production: ## Stop the production docker container.
 	docker compose -f docker/production/docker-compose.yml down
 
-.PHONY: start-goland-server
+.PHONY: start-golang-server
 start-goland-server: ## Stop the production docker container.
 	cd services/api && go run cmd/vinyl_catalog/main.go
 
@@ -43,4 +43,4 @@ start-nextjs-server: ## Stop the production docker container.
 	npm --prefix clients/web run dev
 
 .PHONY: start-servers
-start-servers: start-goland-server start-nextjs-server
+start-servers: start-golang-server start-nextjs-server
