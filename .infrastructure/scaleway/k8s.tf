@@ -18,3 +18,9 @@ resource "scaleway_k8s_pool" "main-pool" {
   wait_for_pool_ready = true
   tags = [var.tag_environment]
 }
+
+resource "scaleway_registry_namespace" "main-image-registry" {
+  name        = "${var.project_name}-registry"
+  description = "Vinyl Catalog Container registry"
+  is_public   = false
+}
