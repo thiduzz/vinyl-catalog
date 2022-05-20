@@ -5,7 +5,8 @@ import (
 	driver "github.com/go-sql-driver/mysql"
 	"github.com/thiduzz/vinyl-catalog/cmd/vinyl_catalog/app"
 	"log"
-	"net/http"
+	"os"
+	"time"
 )
 
 func main() {
@@ -16,6 +17,11 @@ func main() {
 	}
 	log.Println("Setting Application and Dependencies...")
 	application := app.NewApp(databaseConnection)
+	log.Println("Setting Server...")
+	port := os.Getenv("CONTAINER_PORT")
+	server := app.NewServer(fmt.Sprintf(":%s", port), application)
+	log.Printf("Starting Server at port %s", port)
+	if err := server.Start(); err != nil {
 		log.Fatal(err)
 	}
 }
