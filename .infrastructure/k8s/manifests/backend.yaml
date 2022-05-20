@@ -8,7 +8,7 @@ spec:
 ## This service will be of type NodePort
   type: NodePort
   ports:
-    - port: 5678
+    - port: 8080
       protocol: TCP
   selector:
 ## Select any PODS (not deployments) with the label
@@ -48,6 +48,6 @@ spec:
 ## Text to be shown when we access the root path of this
             - "-text=This is where our Backend will be found"
           ports:
-## By default the hashicorp/http-echo exposes port 5678
+            - containerPort: 8080
 ## (this will vary depending on the image we use)
             - containerPort: 5678

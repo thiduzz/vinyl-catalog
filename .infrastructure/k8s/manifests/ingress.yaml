@@ -25,7 +25,7 @@ metadata:
   annotations:
 ## Here we are telling that any request coming to this ingress will
 ## reach the Service without the Prefix
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
 ## Name of the IngressClass we are going to use
   ingressClassName: nginx
@@ -38,13 +38,13 @@ spec:
 ## nginx.ingress.kubernetes.io/rewrite-target defined above, it will
 ## automatically remove the "/backend" from the path.
 ## ie. 51.158.57.177/backend -> 127.0.0.0:5678
-          - path: /backend
+          - path: /backend(/|$)(.*)
             pathType: Prefix
             backend:
               service:
                 name: backend
                 port:
-                  number: 5678
+                  number: 8080
           - path: /
             pathType: Prefix
             backend:
