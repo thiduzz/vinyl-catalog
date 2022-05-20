@@ -17,8 +17,9 @@ kube-apply: ## Create all Kubernetes cluster resources
 	kubectl apply -f ./k8s/manifests/frontend.yaml
 	kubectl apply -f ./k8s/manifests/ingress.yaml
 
-apply: init ## Apply changes to Infrastructure
-	terraform apply -var-file=$(VAR_FILE)
+kube-redeploy: create-or-update-secrets ## Redeploy all pods
+	kubectl rollout restart deployment backend
+
 apply: init ## Apply changes to Infrastructure with AWS Vault profile
 	aws-vault exec vinyl-catalog -- terraform apply -var-file=$(VAR_FILE)
 
