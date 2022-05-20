@@ -10,7 +10,7 @@ help: ## Prints the help about targets.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf " \033[34m%-17s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST) | sort
 
 init: ## Initialize Terraform project
-	terraform init
+	aws-vault exec vinyl-catalog -- terraform init -upgrade
 
 kube-apply: ## Create all Kubernetes cluster resources
 	kubectl apply -f ./k8s/manifests/backend.yaml
@@ -19,12 +19,14 @@ kube-apply: ## Create all Kubernetes cluster resources
 
 apply: init ## Apply changes to Infrastructure
 	terraform apply -var-file=$(VAR_FILE)
+apply: init ## Apply changes to Infrastructure with AWS Vault profile
+	aws-vault exec vinyl-catalog -- terraform apply -var-file=$(VAR_FILE)
 
-apply-refresh: init ## Refresh changes to Infrastructure
-	terraform apply -refresh-only -var-file=$(VAR_FILE)
+apply-refresh: init ## Refresh changes to Infrastructure with AWS Vault profile
+	aws-vault exec vinyl-catalog -- terraform apply -refresh-only -var-file=$(VAR_FILE)
 
-destroy: ## Remove all changes done to the Infrastructure
-	terraform destroy -var-file=$(VAR_FILE)
+destroy: ## Remove all changes done to the Infrastructure with AWS Vault profile
+	aws-vault exec vinyl-catalog -- terraform destroy -var-file=$(VAR_FILE)
 
 kube-destroy: ## Destroy all Kubernetes cluster resources
 	kubectl delete -f ./k8s/manifests/backend.yaml
