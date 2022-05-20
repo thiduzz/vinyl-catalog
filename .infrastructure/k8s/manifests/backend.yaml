@@ -37,17 +37,14 @@ spec:
 ## deployment will create
         pod-name: backend
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
         - name: backend
-## A testing Docker image - until we have a proper
-## image for our application. This image is simple, it
-## takes the args we send to it and print it whenever
-## we access its root path "/"
-          image: hashicorp/http-echo
-          args:
-## Text to be shown when we access the root path of this
-            - "-text=This is where our Backend will be found"
+          image: rg.fr-par.scw.cloud/vinyl-catalog-registry/backend:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: backend-secret
           ports:
             - containerPort: 8080
-## (this will vary depending on the image we use)
-            - containerPort: 5678
