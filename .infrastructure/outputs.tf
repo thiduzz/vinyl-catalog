@@ -9,3 +9,11 @@ output "scaleway_lb_ip" {
 output "scaleway_lb_ip_zone" {
   value = module.scaleway_resources.nginx-ip-zone
 }
+
+output "aws_rds_db_host" {
+  value     = module.aws_resources.rds_db_host
+}
+
+output "aws_rds_db_password" {
+  value     = module.aws_resources.rds_db_password
+}

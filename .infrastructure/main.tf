@@ -3,8 +3,9 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "4.11.0"
+      version = "4.14.0"
     }
+
     scaleway = {
       source  = "scaleway/scaleway"
       version = "2.2.1-rc.3"
@@ -24,7 +25,6 @@ provider "scaleway" {
 }
 
 provider "aws" {
-  profile = "vinyl-catalog"
   region  = "eu-central-1"
 }
 
@@ -39,6 +39,12 @@ module "aws_resources" {
   source = "./aws"
   project_name = var.project_name
   tag_environment = var.tag_environment
+  vpc_cidr = var.vpc_cidr
+  public_subnet_range = var.public_subnet_range
+  public_subnet_range_2 = var.public_subnet_range_2
+  public_subnet_range_3 = var.public_subnet_range_3
+  scaleway_ips = var.scaleway_ips
+  #  private_subnet_range = var.private_subnet_range
 }
 
 module "scaleway_resources" {
