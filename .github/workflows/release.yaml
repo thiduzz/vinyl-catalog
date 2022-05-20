@@ -1,0 +1,19 @@
+
+name: Release
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: Login to Registry
+        run: docker login rg.fr-par.scw.cloud/vinyl-catalog-registry -u nologin --password-stdin <<< "$SCW_SECRET_KEY"
+      - name: Build the Docker image
+        run: docker build . --file ./services/api/Dockerfile --tag  rg.fr-par.scw.cloud/vinyl-store-images/backend:latest
+      - name: Build the Docker image
+        run: docker push rg.fr-par.scw.cloud/vinyl-store-images/backend:latest
