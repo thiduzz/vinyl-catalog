@@ -36,3 +36,9 @@ kube-destroy: ## Destroy all Kubernetes cluster resources
 update-kubeconfig: ## Update kubeconfig to connect to cluster
 	scw -p vinyl-catalog k8s kubeconfig get $(KUBERNETES_CLUSTER_ID)
 	scw -p vinyl-catalog k8s kubeconfig install $(KUBERNETES_CLUSTER_ID)
+
+create-or-update-secrets: ## Read .env file and create Kubernetes Secrets
+	kubectl delete secret regcred --ignore-not-found
+	kubectl delete secret backend-secret --ignore-not-found
+	kubectl create secret generic regcred --from-file=.dockerconfigjson=./docker-registry.json --type=kubernetes.io/dockerconfigjson
+	kubectl create secret generic backend-secret --from-env-file=../services/api/.env.dist

@@ -54,3 +54,27 @@ resource "helm_release" "nginx_ingress" {
     value = "Local"
   }
 }
+
+
+#resource "helm_release" "vault" {
+#  ## Arbitrary name for the vault
+#  name       = "vault"
+#  ## Defines where Helm should look for the Chart we want to install
+#  repository = "https://helm.releases.hashicorp.com"
+#  ## Define the name of the Chart we want to install
+#  chart      = "vault"
+#
+#  create_namespace = true
+#
+#  namespace = "vault"
+#
+#  set {
+#    name = "installCRDs"
+#    value = "true"
+#  }
+#
+#  set {
+#    name  = "ui.enabled"
+#    value = "true"
+#  }
+#}
