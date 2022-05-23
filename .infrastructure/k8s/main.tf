@@ -53,6 +53,7 @@ resource "helm_release" "nginx_ingress" {
     name = "controller.service.externalTrafficPolicy"
     value = "Local"
   }
+
 }
 
 

@@ -30,7 +30,7 @@ provider "aws" {
 
 provider "helm" {
   kubernetes {
-    config_context = "admin@vinyl-catalog-cluster-78e28698-4011-496a-b63f-004652541296"
+    config_context = "admin@vinyl-catalog-cluster-3a660f45-2710-424a-9706-872002af88f1"
     config_path = "~/.kube/config"
   }
 }
@@ -59,4 +59,8 @@ module "k8s_resources" {
   tag_environment = var.tag_environment
   nginx_ip = module.scaleway_resources.nginx-ip
   nginx_zone = module.scaleway_resources.nginx-ip-zone
+  # Ensures that when destroying, the k8s_resources are destroyed
+  # before the cluster, so it does not try to do it after the cluster is killed
+  # which leads to an error (Kubernetes cluster unreachable)
+  depends_on = [module.scaleway_resources]
 }
