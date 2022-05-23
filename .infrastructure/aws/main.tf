@@ -22,7 +22,7 @@ data "http" "my_public_ip" {
 resource "random_password" "rds-master-password" {
   length           = 32
   special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
+  override_special = "!$%&*()-_=+[]{}<>:?"
 }
 
 locals {
