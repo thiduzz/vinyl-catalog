@@ -1,50 +1,40 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	"github.com/go-sql-driver/mysql"
+	driver "github.com/go-sql-driver/mysql"
+	"github.com/thiduzz/vinyl-catalog/cmd/vinyl_catalog/app"
 	"log"
-	"net/http"
 	"os"
 	"time"
 )
 
 func main() {
-	log.Printf("Starting server at port %s \n", os.Getenv("CONTAINER_PORT"))
-
-	http.HandleFunc("/db", func(w http.ResponseWriter, r *http.Request) {
-
-		config := mysql.NewConfig()
-		config.User = os.Getenv("DB_USER_NAME")
-		config.Passwd = os.Getenv("DB_USER_PASSWORD")
-		config.Net = "tcp"
-		config.Addr = fmt.Sprintf("%s:%s", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"))
-		config.DBName = os.Getenv("DB_SCHEMA_NAME")
-		config.Params = map[string]string{"charset": "utf8"}
-		config.Loc = time.UTC
-		config.ParseTime = true
-		db, err := sql.Open("mysql", config.FormatDSN())
-		if err != nil {
-			fmt.Fprintf(w, "Error when opening connection: %s", err.Error())
-			return
-		}
-		db.SetConnMaxLifetime(time.Minute * 3)
-		db.SetMaxOpenConns(10)
-		db.SetMaxIdleConns(10)
-		err = db.Ping()
-		if err != nil {
-			fmt.Fprintf(w, "Error when pinging database: %s", err.Error())
-			return
-		}
-		fmt.Fprint(w, "Successfully reached AWS Database!")
-	})
-
-	http.HandleFunc("/up", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "God save the Queen!")
-	})
-
-	if err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("CONTAINER_PORT")), nil); err != nil {
+	log.Println("Setting Database connection...")
+	databaseConnection, err := app.NewMySqlDatabaseConnection(databaseConfig())
+	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println("Setting Application and Dependencies...")
+	application := app.NewApp(databaseConnection)
+	log.Println("Setting Server...")
+	port := os.Getenv("CONTAINER_PORT")
+	server := app.NewServer(fmt.Sprintf(":%s", port), application)
+	log.Printf("Starting Server at port %s", port)
+	if err := server.Start(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func databaseConfig() *driver.Config {
+	config := driver.NewConfig()
+	config.User = os.Getenv("DB_USER_NAME")
+	config.Passwd = os.Getenv("DB_USER_PASSWORD")
+	config.Net = "tcp"
+	config.Addr = fmt.Sprintf("%s:%s", os.Getenv("DB_HOST"), os.Getenv("DB_PORT"))
+	config.DBName = os.Getenv("DB_SCHEMA_NAME")
+	config.Params = map[string]string{"charset": "utf8"}
+	config.Loc = time.UTC
+	config.ParseTime = true
+	return config
 }
