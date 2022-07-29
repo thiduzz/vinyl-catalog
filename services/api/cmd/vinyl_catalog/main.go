@@ -1,16 +1,6 @@
 package main
 
 import (
-<<<<<<< HEAD
-	"log"
-	"net/http"
-
-	"github.com/thiduzz/vinyl-catalog/cmd/vinyl_catalog/handlers"
-)
-
-func main() {
-	log.Println("started server on 0.0.0.0:8080, url: http://localhost:8080")
-=======
 	"database/sql"
 	"fmt"
 	"github.com/go-sql-driver/mysql"
@@ -49,9 +39,10 @@ func main() {
 		}
 		fmt.Fprint(w, "Successfully reached AWS Database!")
 	})
->>>>>>> e2abf3f8e0296a4cd5f7b8800475c6ea5ac4ee42
 
-	http.HandleFunc("/up", handlers.UpHandler)
+	http.HandleFunc("/up", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "God save the Queen!")
+	})
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("CONTAINER_PORT")), nil); err != nil {
 		log.Fatal(err)
